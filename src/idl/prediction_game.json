@@ -1,0 +1,1221 @@
+{
+  "address": "GG4SHU9dJNRGrWfWXmtDtFsX2jpYEhKjHkZBdn5X8fzt",
+  "metadata": {
+    "name": "prediction_game",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "SOL/USD price prediction game on Solana"
+  },
+  "instructions": [
+    {
+      "name": "admin_force_cancel",
+      "docs": [
+        "Admin force cancel - emergency function to cancel stuck rounds",
+        "This bypasses price feed checks and can cancel rounds in any state",
+        "Only the config authority can call this"
+      ],
+      "discriminator": [
+        101,
+        52,
+        0,
+        153,
+        168,
+        111,
+        252,
+        170
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round.round_id",
+                "account": "PredictionRound"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_payout",
+      "docs": [
+        "Claim payout for a winning prediction"
+      ],
+      "discriminator": [
+        127,
+        240,
+        132,
+        62,
+        227,
+        198,
+        146,
+        133
+      ],
+      "accounts": [
+        {
+          "name": "round",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round.round_id",
+                "account": "PredictionRound"
+              }
+            ]
+          }
+        },
+        {
+          "name": "entry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  101,
+                  110,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "entry.round_id",
+                "account": "PredictionEntry"
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "entry"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "claim_refund",
+      "docs": [
+        "Claim refund for a cancelled round"
+      ],
+      "discriminator": [
+        15,
+        16,
+        30,
+        161,
+        255,
+        228,
+        97,
+        60
+      ],
+      "accounts": [
+        {
+          "name": "round",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round.round_id",
+                "account": "PredictionRound"
+              }
+            ]
+          }
+        },
+        {
+          "name": "entry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  101,
+                  110,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "entry.round_id",
+                "account": "PredictionEntry"
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "entry"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize_prediction",
+      "docs": [
+        "Initialize the prediction game configuration"
+      ],
+      "discriminator": [
+        171,
+        63,
+        110,
+        37,
+        110,
+        115,
+        162,
+        248
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "fee_wallet"
+        },
+        {
+          "name": "pyth_price_feed"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "house_fee_bps",
+          "type": "u16"
+        },
+        {
+          "name": "min_bet_lamports",
+          "type": "u64"
+        },
+        {
+          "name": "round_duration_seconds",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "lock_round",
+      "docs": [
+        "Lock the round and capture the lock price from Pyth"
+      ],
+      "discriminator": [
+        68,
+        124,
+        43,
+        230,
+        30,
+        44,
+        248,
+        227
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round.round_id",
+                "account": "PredictionRound"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pyth_price_feed"
+        },
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "place_prediction",
+      "docs": [
+        "Place a prediction bet (UP or DOWN)"
+      ],
+      "discriminator": [
+        79,
+        46,
+        195,
+        197,
+        50,
+        91,
+        88,
+        229
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round.round_id",
+                "account": "PredictionRound"
+              }
+            ]
+          }
+        },
+        {
+          "name": "entry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  101,
+                  110,
+                  116,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round.round_id",
+                "account": "PredictionRound"
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "direction",
+          "type": {
+            "defined": {
+              "name": "PredictionDirection"
+            }
+          }
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "settle_round",
+      "docs": [
+        "Settle the round with the final price"
+      ],
+      "discriminator": [
+        40,
+        101,
+        18,
+        1,
+        31,
+        129,
+        52,
+        77
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round.round_id",
+                "account": "PredictionRound"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pyth_price_feed"
+        },
+        {
+          "name": "fee_wallet",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "start_round",
+      "docs": [
+        "Start a new prediction round"
+      ],
+      "discriminator": [
+        144,
+        144,
+        43,
+        7,
+        193,
+        42,
+        217,
+        215
+      ],
+      "accounts": [
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110,
+                  45,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PredictionConfig",
+      "discriminator": [
+        186,
+        178,
+        0,
+        3,
+        233,
+        162,
+        29,
+        254
+      ]
+    },
+    {
+      "name": "PredictionEntry",
+      "discriminator": [
+        97,
+        120,
+        225,
+        203,
+        151,
+        87,
+        127,
+        189
+      ]
+    },
+    {
+      "name": "PredictionRound",
+      "discriminator": [
+        201,
+        208,
+        139,
+        53,
+        9,
+        173,
+        81,
+        178
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidFee",
+      "msg": "Invalid fee: must be <= 1000 basis points (10%)"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMinBet",
+      "msg": "Invalid minimum bet: must be >= 0.001 SOL"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidDuration",
+      "msg": "Invalid duration: must be >= 60 seconds"
+    },
+    {
+      "code": 6003,
+      "name": "BetTooSmall",
+      "msg": "Bet amount too small"
+    },
+    {
+      "code": 6004,
+      "name": "RoundNotActive",
+      "msg": "Round is not active"
+    },
+    {
+      "code": 6005,
+      "name": "BettingClosed",
+      "msg": "Betting is closed"
+    },
+    {
+      "code": 6006,
+      "name": "TooEarlyToLock",
+      "msg": "Too early to lock round"
+    },
+    {
+      "code": 6007,
+      "name": "RoundNotLocked",
+      "msg": "Round is not locked"
+    },
+    {
+      "code": 6008,
+      "name": "TooEarlyToSettle",
+      "msg": "Too early to settle round"
+    },
+    {
+      "code": 6009,
+      "name": "RoundNotSettled",
+      "msg": "Round is not settled"
+    },
+    {
+      "code": 6010,
+      "name": "RoundNotCancelled",
+      "msg": "Round is not cancelled"
+    },
+    {
+      "code": 6011,
+      "name": "AlreadyClaimed",
+      "msg": "Already claimed"
+    },
+    {
+      "code": 6012,
+      "name": "NotAWinner",
+      "msg": "Not a winner"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidPriceFeed",
+      "msg": "Invalid Pyth price feed account"
+    },
+    {
+      "code": 6014,
+      "name": "StalePriceFeed",
+      "msg": "Price feed is too stale"
+    },
+    {
+      "code": 6015,
+      "name": "RoundAlreadyFinalized",
+      "msg": "Round is already settled or cancelled"
+    }
+  ],
+  "types": [
+    {
+      "name": "PredictionConfig",
+      "docs": [
+        "Prediction game configuration - singleton account"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "Admin authority who can update config"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_wallet",
+            "docs": [
+              "Wallet where house fees are sent"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "house_fee_bps",
+            "docs": [
+              "House fee in basis points (500 = 5%)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "min_bet_lamports",
+            "docs": [
+              "Minimum bet in lamports (10_000_000 = 0.01 SOL)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "round_duration_seconds",
+            "docs": [
+              "Round duration in seconds (120 = 2 minutes)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "current_round_id",
+            "docs": [
+              "Current round ID (auto-incrementing)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_rounds_played",
+            "docs": [
+              "Total rounds played (stats)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_fees_collected",
+            "docs": [
+              "Total fees collected in lamports (stats)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "pyth_price_feed",
+            "docs": [
+              "Pyth SOL/USD price feed address"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PredictionDirection",
+      "docs": [
+        "Prediction direction"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Up"
+          },
+          {
+            "name": "Down"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PredictionEntry",
+      "docs": [
+        "Player's prediction entry for a round"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "docs": [
+              "Round this entry belongs to"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "player",
+            "docs": [
+              "Player's wallet"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "direction",
+            "docs": [
+              "Prediction direction (Up or Down)"
+            ],
+            "type": {
+              "defined": {
+                "name": "PredictionDirection"
+              }
+            }
+          },
+          {
+            "name": "bet_amount",
+            "docs": [
+              "Amount bet in lamports"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "entry_timestamp",
+            "docs": [
+              "Entry timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "claimed",
+            "docs": [
+              "Whether payout has been claimed"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "payout_amount",
+            "docs": [
+              "Payout amount (set after settlement)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PredictionRound",
+      "docs": [
+        "Individual prediction round"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "docs": [
+              "Unique round identifier"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "start_timestamp",
+            "docs": [
+              "Unix timestamp when round started"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "lock_timestamp",
+            "docs": [
+              "Unix timestamp when betting ends and price locks"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "settle_timestamp",
+            "docs": [
+              "Unix timestamp when round settles"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "up_pool",
+            "docs": [
+              "Total lamports in UP pool"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "down_pool",
+            "docs": [
+              "Total lamports in DOWN pool"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "up_count",
+            "docs": [
+              "Number of UP bettors"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "down_count",
+            "docs": [
+              "Number of DOWN bettors"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "lock_price",
+            "docs": [
+              "SOL/USD price at lock time (scaled by 10^8)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "settle_price",
+            "docs": [
+              "SOL/USD price at settle time (scaled by 10^8)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "status",
+            "docs": [
+              "Current status"
+            ],
+            "type": {
+              "defined": {
+                "name": "PredictionRoundStatus"
+              }
+            }
+          },
+          {
+            "name": "winning_direction",
+            "docs": [
+              "Winning direction (set after settlement)"
+            ],
+            "type": {
+              "defined": {
+                "name": "PredictionDirection"
+              }
+            }
+          },
+          {
+            "name": "result_set",
+            "docs": [
+              "Whether result is set"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "total_payouts",
+            "docs": [
+              "Total payouts distributed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "fee_collected",
+            "docs": [
+              "House fee collected this round"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PredictionRoundStatus",
+      "docs": [
+        "Round status enum"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Locked"
+          },
+          {
+            "name": "Settled"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    }
+  ]
+}
