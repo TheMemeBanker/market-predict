@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+target/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Solana
+test-ledger/
+.anchor/
+
+# Keys (NEVER commit)
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# Vercel
+.vercel/
+.vercel
+.env
+.env*.local
+/dist

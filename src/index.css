@@ -1,0 +1,333 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --moon-green: #39ff14;
+  --moon-green-glow: rgba(57, 255, 20, 0.4);
+  --doom-red: #ff3131;
+  --doom-red-glow: rgba(255, 49, 49, 0.4);
+  --bg-dark: #0a0e17;
+  --bg-card: #111827;
+  --bg-elevated: #1a2332;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-dark);
+  color: #fff;
+}
+
+/* Mobile touch optimizations */
+button, a, input, select, textarea, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (max-width: 768px) {
+  button {
+    min-height: 44px;
+  }
+}
+
+/* Compact wallet button - clean professional style */
+.wallet-btn-compact .wallet-adapter-button {
+  background: linear-gradient(135deg, #39ff14 0%, #00cc44 100%) !important;
+  border: none !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+  font-size: 12px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  line-height: 1.2 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(57, 255, 20, 0.25) !important;
+}
+
+.wallet-btn-compact .wallet-adapter-button:hover {
+  background: linear-gradient(135deg, #4dff33 0%, #39ff14 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(57, 255, 20, 0.35) !important;
+}
+
+.wallet-btn-compact .wallet-adapter-button-trigger {
+  max-width: 110px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Connected state */
+.wallet-btn-compact .wallet-adapter-button-has-balance,
+.wallet-btn-compact .wallet-adapter-button:not(.wallet-adapter-button-trigger) {
+  background: rgba(57, 255, 20, 0.1) !important;
+  border: 1px solid rgba(57, 255, 20, 0.3) !important;
+  color: #39ff14 !important;
+  box-shadow: none !important;
+}
+
+/* Desktop - slightly larger */
+@media (min-width: 1024px) {
+  .wallet-btn-compact .wallet-adapter-button {
+    padding: 10px 18px !important;
+    font-size: 13px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+
+  .wallet-btn-compact .wallet-adapter-button-trigger {
+    max-width: 140px !important;
+  }
+}
+
+/* Wallet modal mobile styles */
+.wallet-adapter-modal-wrapper {
+  padding: 16px !important;
+}
+
+.wallet-adapter-modal {
+  max-width: calc(100vw - 32px) !important;
+  max-height: calc(100vh - 32px) !important;
+}
+
+.wallet-adapter-modal-list {
+  margin: 0 !important;
+}
+
+.wallet-adapter-modal-list li {
+  margin: 4px 0 !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+/* Neon glow animations */
+@keyframes pulse-moon {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--moon-green-glow), 0 0 40px var(--moon-green-glow);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--moon-green-glow), 0 0 60px var(--moon-green-glow);
+  }
+}
+
+@keyframes pulse-doom {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--doom-red-glow), 0 0 40px var(--doom-red-glow);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--doom-red-glow), 0 0 60px var(--doom-red-glow);
+  }
+}
+
+@keyframes glow-moon {
+  0%, 100% { text-shadow: 0 0 10px var(--moon-green), 0 0 20px var(--moon-green), 0 0 30px var(--moon-green); }
+  50% { text-shadow: 0 0 20px var(--moon-green), 0 0 40px var(--moon-green), 0 0 60px var(--moon-green); }
+}
+
+@keyframes glow-doom {
+  0%, 100% { text-shadow: 0 0 10px var(--doom-red), 0 0 20px var(--doom-red), 0 0 30px var(--doom-red); }
+  50% { text-shadow: 0 0 20px var(--doom-red), 0 0 40px var(--doom-red), 0 0 60px var(--doom-red); }
+}
+
+@keyframes countdown-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes urgent-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes price-flash-up {
+  0% { background: rgba(57, 255, 20, 0.3); }
+  100% { background: transparent; }
+}
+
+@keyframes price-flash-down {
+  0% { background: rgba(255, 49, 49, 0.3); }
+  100% { background: transparent; }
+}
+
+.animate-pulse-moon {
+  animation: pulse-moon 2s ease-in-out infinite;
+}
+
+.animate-pulse-doom {
+  animation: pulse-doom 2s ease-in-out infinite;
+}
+
+.animate-glow-moon {
+  animation: glow-moon 2s ease-in-out infinite;
+}
+
+.animate-glow-doom {
+  animation: glow-doom 2s ease-in-out infinite;
+}
+
+.animate-countdown {
+  animation: countdown-pulse 1s ease-in-out infinite;
+}
+
+.animate-urgent {
+  animation: urgent-flash 0.5s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* Neon button styles */
+.btn-moon {
+  background: linear-gradient(135deg, #39ff14 0%, #00ff88 100%);
+  color: #000;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 2px solid #39ff14;
+  transition: all 0.2s ease;
+}
+
+.btn-moon:hover:not(:disabled) {
+  box-shadow: 0 0 30px var(--moon-green-glow), 0 0 60px var(--moon-green-glow);
+  transform: translateY(-2px);
+}
+
+.btn-moon:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-moon.selected {
+  animation: pulse-moon 1.5s ease-in-out infinite;
+}
+
+.btn-doom {
+  background: linear-gradient(135deg, #ff3131 0%, #ff6b6b 100%);
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 2px solid #ff3131;
+  transition: all 0.2s ease;
+}
+
+.btn-doom:hover:not(:disabled) {
+  box-shadow: 0 0 30px var(--doom-red-glow), 0 0 60px var(--doom-red-glow);
+  transform: translateY(-2px);
+}
+
+.btn-doom:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-doom.selected {
+  animation: pulse-doom 1.5s ease-in-out infinite;
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Price display */
+.price-display {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-feature-settings: "tnum";
+}
+
+/* Progress bar glow */
+.progress-moon {
+  background: linear-gradient(90deg, #39ff14, #00ff88);
+  box-shadow: 0 0 10px var(--moon-green-glow);
+}
+
+.progress-doom {
+  background: linear-gradient(90deg, #ff3131, #ff6b6b);
+  box-shadow: 0 0 10px var(--doom-red-glow);
+}
+
+/* Timer urgent state */
+.timer-urgent {
+  color: #ff3131 !important;
+  animation: urgent-flash 0.3s ease-in-out infinite, countdown-pulse 0.5s ease-in-out infinite;
+}
+
+/* Pool bar */
+.pool-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.pool-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Result animations */
+@keyframes win-celebration {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes lose-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.animate-win {
+  animation: win-celebration 0.5s ease-out;
+}
+
+.animate-lose {
+  animation: lose-shake 0.3s ease-in-out;
+}
+
+.animate-shake {
+  animation: lose-shake 0.5s ease-in-out infinite;
+}
